@@ -1,0 +1,24 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  application:
+    name: register-service
+
+
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 72576189908-43qghbvlensshkv946a7qrv7oil5ffhs.apps.googleusercontent.com
+            clientSecret: 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
+
+server:
+    port: 9192
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8083/eureka
