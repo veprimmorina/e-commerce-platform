@@ -16,7 +16,7 @@ spring:
             clientSecret: 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
 
 server:
-    port: 9192
+    port: 2000
 
 eureka:
   client:
