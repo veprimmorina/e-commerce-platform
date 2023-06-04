@@ -41,12 +41,12 @@ public class JwtUtil {
         return expiration.before(new Date());
     }
 
-    public String generateToken(String username, String name, String lastName) {
+    public String generateToken(String username, String name, String lastName, int role) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username, name, lastName);
+        return createToken(claims, username, name, lastName, role);
     }
 
-    private String createToken(Map<String, Object> claims, String subject, String name, String lastName) {
+    private String createToken(Map<String, Object> claims, String subject, String name, String lastName, int role) {
 
         long expirationTime = 172800000; // 2 days in milliseconds
         Date now = new Date();
@@ -54,7 +54,7 @@ public class JwtUtil {
 
         claims.put("name", name);
         claims.put("lastName", lastName);
-
+        claims.put("role", role);
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(now).setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }

@@ -20,6 +20,8 @@ public class UserEntity {
 
     @Column(name="last_name")
     private String lastName;
+    @Column(name="role")
+    private int role;
     @Column
     private boolean isGoogleAccount;
 
@@ -41,6 +43,14 @@ public class UserEntity {
 
     public String getEmailId() {
         return emailId;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public void setEmailId(String emailId) {

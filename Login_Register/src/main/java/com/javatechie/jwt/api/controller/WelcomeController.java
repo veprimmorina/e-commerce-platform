@@ -121,7 +121,7 @@ public class WelcomeController {
 
                 }
                 else if(user.isGoogleAccount()==true){
-                    String jwtToken = jwtUtil.generateToken(user.getEmailId(), user.getFirstName(), user.getLastName());
+                    String jwtToken = jwtUtil.generateToken(user.getEmailId(), user.getFirstName(), user.getLastName(), user.getRole());
                     return ResponseEntity.ok(jwtToken);
                 }else{
                     return ResponseEntity.ok("You should try to log in with your Samsung account");
@@ -155,12 +155,44 @@ public class WelcomeController {
 
             userEntity = this.userRepository.findByUserName(authRequest.getUserName());
 
+            if(userEntity.getRole()==1){
+                throw new Exception("Invalid username/password");
+            }
 
         } catch (Exception ex) {
 
             throw new Exception("inavalid username/password");
         }
-        return jwtUtil.generateToken(authRequest.getUserName(), userEntity.getFirstName(), userEntity.getLastName());
+        return jwtUtil.generateToken(authRequest.getUserName(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getRole());
+    }
+
+    @PostMapping("/authenticate/admin")
+    public String generateAdminToken(@RequestBody AuthRequest authRequest) throws Exception {
+        System.out.println(authRequest.getUserName()+authRequest.getPassword());
+        UserEntity userEntity;
+        try {
+            UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(authRequest.getUserName());
+
+
+            if (!(authRequest.getPassword().equals( userDetails.getPassword()))) {
+                throw new Exception("Invalid username/password");
+            }
+
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), userDetails.getPassword())
+            );
+
+            userEntity = this.userRepository.findByUserName(authRequest.getUserName());
+
+            if (userEntity.getRole()==0){
+                throw new Exception("Invalid username/password");
+            }
+
+        } catch (Exception ex) {
+
+            throw new Exception("inavalid username/password");
+        }
+        return jwtUtil.generateToken(authRequest.getUserName(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getRole());
     }
 
 
