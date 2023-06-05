@@ -20,14 +20,18 @@ import java.util.UUID;
 public class UserController {
 
 
-    @Autowired
-    private RegisterUserRepository userRepository;
-    @Autowired
-    private ConfirmationTokenRepository confirmationTokenRepository;
 
-    @Autowired
-    private EmailService emailService;
+    private final RegisterUserRepository userRepository;
 
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+
+    private final EmailService emailService;
+
+    public UserController(RegisterUserRepository userRepository, ConfirmationTokenRepository confirmationTokenRepository, EmailService emailService){
+        this.userRepository=userRepository;
+        this.confirmationTokenRepository= confirmationTokenRepository;
+        this.emailService=emailService;
+    }
     @GetMapping("/another")
     public String another(){
         return "Another";

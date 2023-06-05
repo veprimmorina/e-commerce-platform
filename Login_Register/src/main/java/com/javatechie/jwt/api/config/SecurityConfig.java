@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().and().authorizeRequests().antMatchers("/authenticate","/authenticate/google","/api/user/register","/api/user/confirm-account","/api/user/reset-password","/api/user/reset-password/page","/api/user/reset-password/confirm","/authenticate/admin")
+        http.csrf().disable().cors().and().authorizeRequests().antMatchers("/authenticate","/authenticate/google","/api/user/register","/api/user/confirm-account","/api/user/reset-password","/api/user/reset-password/page","/api/user/reset-password/confirm","/authenticate/admin/{token}","/send/code")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()

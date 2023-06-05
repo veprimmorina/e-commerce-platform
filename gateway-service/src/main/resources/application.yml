@@ -1,0 +1,49 @@
+server:
+  port: 9000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8083/eureka
+
+
+
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+              allowedOrigins: "*"
+              allowedMethods: "*"
+              allowedHeaders: "*"
+      routes:
+        - id: products-service
+          uri: http://localhost:8080/
+          predicates:
+            - Path=/api/product/**
+        - id: details-service
+          uri: http://localhost:8080/
+          predicates:
+            - Path=/api/detail/**
+        - id: category-service
+          uri: http://localhost:8080/
+          predicates:
+              - Path=/api/category/**
+        - id: subcategory-service
+          uri: http://localhost:8080/
+          predicates:
+              - Path=/api/subCategory/**
+        - id: warranty-service
+          uri: http://localhost:8080/
+          predicates:
+              - Path=/api/warranty/**
+        - id: payment-service
+          uri: http://localhost:7000/
+          predicates:
+            - Path=/api/payments/**
+  application:
+    name: gateway-api-service
+

@@ -2,10 +2,13 @@ package com.javatechie.jwt.api.controller;
 
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.javatechie.jwt.api.entity.AuthRequest;
+import com.javatechie.jwt.api.entity.ConfirmationToken;
 import com.javatechie.jwt.api.entity.GoogleAuthenticationRequest;
 import com.javatechie.jwt.api.entity.UserEntity;
+import com.javatechie.jwt.api.repository.ConfirmationTokenRepository;
 import com.javatechie.jwt.api.repository.RegisterUserRepository;
 import com.javatechie.jwt.api.service.CustomUserDetailsService;
+import com.javatechie.jwt.api.service.EmailService;
 import com.javatechie.jwt.api.service.GoogleUserService;
 import com.javatechie.jwt.api.util.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -14,6 +17,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,29 +30,34 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.Principal;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000/")
 
 public class WelcomeController {
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
+
+    private final AuthenticationManager authenticationManager;
+    private final CustomUserDetailsService customUserDetailsService;
+
+    private final GoogleUserService googleUserService;
+    private final RegisterUserRepository userRepository;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private EmailService emailService;
 
     @Autowired
-    private GoogleUserService googleUserService;
-    @Autowired
-    private RegisterUserRepository userRepository;
+    private ConfirmationTokenRepository confirmationTokenRepository;
 
+    public WelcomeController(JwtUtil jwtUtil, AuthenticationManager authenticationManager, CustomUserDetailsService customUserDetailsService, GoogleUserService googleUserService, RegisterUserRepository registerUserRepository){
+        this.jwtUtil = jwtUtil;
+        this.authenticationManager=authenticationManager;
+        this.customUserDetailsService=customUserDetailsService;
+        this.googleUserService=googleUserService;
+        this.userRepository=registerUserRepository;
+    }
 
     @GetMapping("/")
     public String welcome() {
@@ -159,15 +168,48 @@ public class WelcomeController {
                 throw new Exception("Invalid username/password");
             }
 
-        } catch (Exception ex) {
 
+        } catch (Exception ex) {
             throw new Exception("inavalid username/password");
         }
+
         return jwtUtil.generateToken(authRequest.getUserName(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getRole());
     }
 
-    @PostMapping("/authenticate/admin")
-    public String generateAdminToken(@RequestBody AuthRequest authRequest) throws Exception {
+    @PostMapping("/send/code")
+    public void sendCode(@RequestBody AuthRequest authRequest) throws  Exception{
+        try{
+            UserEntity userEntity = this.userRepository.findByUserName(authRequest.getUserName());
+            if (userEntity.getRole()==0||!(userEntity.getPassword().equals(authRequest.getPassword()))){
+                throw new Exception("Invalid username/password");
+            }
+            ConfirmationToken confirmationToken = confirmationTokenRepository.findByConfirmationToken(userEntity.getConfirmationToken().getConfirmationToken());
+            Random random = new Random();
+            String randomNumber = String.valueOf(random.nextInt(900000)+100000);
+            String hashedToken = new BCryptPasswordEncoder().encode(randomNumber);
+
+            confirmationToken.setConfirmationToken(hashedToken);
+            confirmationTokenRepository.save(confirmationToken);
+            userEntity.setConfirmationToken(confirmationToken);
+            userRepository.save(userEntity);
+            sendConfirmationCodeInEmail(userEntity.getEmailId(), randomNumber);
+
+        }catch (Exception e){
+            throw  new Exception("Invalid username/password");
+        }
+
+
+    }
+
+    public void sendConfirmationCodeInEmail(String email, String code){
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(email);
+        simpleMailMessage.setSubject("Confirm your dashboard login");
+        simpleMailMessage.setText("Your dashboard login verification code:  "+code);
+        emailService.sendEmail(simpleMailMessage);
+    }
+    @PostMapping("/authenticate/admin/{token}")
+    public String generateAdminToken(@RequestBody AuthRequest authRequest, @PathVariable("token") String token) throws Exception {
         System.out.println(authRequest.getUserName()+authRequest.getPassword());
         UserEntity userEntity;
         try {
@@ -188,6 +230,22 @@ public class WelcomeController {
                 throw new Exception("Invalid username/password");
             }
 
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+
+
+
+            if(!bCryptPasswordEncoder.matches(token, userEntity.getConfirmationToken().getConfirmationToken())){
+                throw new Exception("Invalid Token");
+            }
+
+            ConfirmationToken confirmationToken = confirmationTokenRepository.findByConfirmationToken(userEntity.getConfirmationToken().getConfirmationToken());
+            Random random = new Random();
+            String randomNumber = String.valueOf(random.nextInt(900000)+100000);
+            confirmationToken.setConfirmationToken(bCryptPasswordEncoder.encode(randomNumber));
+            confirmationTokenRepository.save(confirmationToken);
+            userEntity.setConfirmationToken(confirmationToken);
+            userRepository.save(userEntity);
         } catch (Exception ex) {
 
             throw new Exception("inavalid username/password");
