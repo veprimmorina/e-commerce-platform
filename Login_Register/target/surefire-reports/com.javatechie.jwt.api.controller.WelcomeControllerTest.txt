@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: com.javatechie.jwt.api.controller.WelcomeControllerTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.139 s <<< FAILURE! - in com.javatechie.jwt.api.controller.WelcomeControllerTest
+testGenerateAdminToken_NonvalidCredentials  Time elapsed: 0.066 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Exception should have been thrown
+	at com.javatechie.jwt.api.controller.WelcomeControllerTest.testGenerateAdminToken_NonvalidCredentials(WelcomeControllerTest.java:101)
+
+generateToken_ValidCredentials_ReturnsToken  Time elapsed: 0.073 s  <<< ERROR!
+java.lang.Exception: inavalid username/password
+	at com.javatechie.jwt.api.controller.WelcomeControllerTest.generateToken_ValidCredentials_ReturnsToken(WelcomeControllerTest.java:76)
+

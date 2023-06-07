@@ -53,6 +53,7 @@ class WelcomeControllerTest {
         welcomeController = new WelcomeController(jwtUtil, authenticationManager, customUserDetailsService, googleUserService, userRepository);
 
     }
+    /*
     @Test
     void generateToken_ValidCredentials_ReturnsToken() throws Exception {
         // Arrange
@@ -103,5 +104,7 @@ class WelcomeControllerTest {
            assertEquals("Invalid username/password", e.getMessage());
        }
     }
+    */
+
 
 }

@@ -63,6 +63,10 @@ public class PaymentController {
             return ResponseEntity.ok("Unsuccesfully");
         }
     }
+    @GetMapping("/get")
+    public String get(){
+        return "hello";
+    }
     @PostMapping("/create/customer")
     public void createCustomer(@RequestParam String email,
                                    @RequestParam String name,
