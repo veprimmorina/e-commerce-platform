@@ -1,0 +1,243 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.clickable{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;
+  cursor: pointer;
+}
+#table-body{
+  background-color: #1F2A40;
+  color: white;
+  font-family: Source Sans Pro,sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.43;
+}
+.media-body{
+  color: #94e2cd;
+  
+}
+.none-opacity{
+  position: relative;
+  top: 289px;
+  border-radius: 15px;
+  border: 2px solid red;
+}
+#collasible-nav-dropdown{
+  color: black;
+}
+.navbar-subcategory{
+  text-decoration: none;
+  color: black;
+  margin: 0px 15px;
+  line-height: 5px;
+}
+.products-head-section{
+  background-color: #f7f7f7;
+  margin-bottom: 10px;
+}
+.success-div{
+  background-color:  #EBF0F5;
+}
+.cursor{
+  cursor: pointer;
+}
+.cart-span{
+  background-color: red;
+  height: 20px;
+  border-radius: 50px;
+  width: 20px;
+}
+.error-checkout {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+.list{
+  list-style: none;
+  display: flex;
+}
+.list-elements{
+  margin-left: 25px;
+}
+.samsung-list{
+  list-style: none;
+}
+.card{
+  margin-left: auto;
+  margin-right: auto;
+}
+.google-button{
+  background-color: azure;
+  height: 40px;
+  border-radius: 35px;
+}
+.login-div{
+  min-height: 930px;
+}
+.payment-methods{
+  border: 1px solid black;
+}
+.error {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+.modal-content{
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+.quantity-button:active{
+  background-color: black;
+  color: #EBF0F5;
+
+}
+.order-card {
+  color: #fff;
+}
+
+.bg-c-blue {
+  background: linear-gradient(45deg,#4099ff,#73b4ff);
+}
+
+.bg-c-green {
+  background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+}
+
+.bg-c-yellow {
+  background: linear-gradient(45deg,#FFB64D,#ffcb80);
+}
+
+.bg-c-pink {
+  background: linear-gradient(45deg,#FF5370,#ff869a);
+}
+
+
+.card {
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  border: none;
+  margin-bottom: 30px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+  padding: 25px;
+}
+
+.order-card i {
+  font-size: 26px;
+}
+
+.f-left {
+  float: left;
+}
+
+.f-right {
+  float: right;
+}
+.tree-view {
+  font-family: Arial, sans-serif;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.tree-node {
+  margin-bottom: 10px;
+}
+
+.tree-node-label {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tree-node-children {
+  margin-left: 20px;
+}
+.carousel-caption{
+  right: 80%!important;
+  bottom: 180px!important;
+  width: 400px;
+  text-align: left!important;
+}
+.product-card{
+  min-height: 450px;
+}
+.order-button-product{
+  margin-left: 45px;
+  border-radius: 87px!important;
+}
+.out-of-stock{
+  opacity: .7;
+}
+.marketing{
+  background-image: url('https://cutewallpaper.org/27/border-phone-wallpaper/20445116.jpg');
+  padding-top: 250px;
+  padding-bottom: 300px;
+}
+.learn-more{
+  text-decoration: none;
+  margin-left: 25px;
+  margin-top: 7px;
+}
+.checkout-div{
+  border: 1px solid black;
+  border-radius: 15px;
+}
+.order-button{
+  border-radius: 25px!important;
+}
+.bold{
+  margin-left: 5px;
+}
+.login-dash{
+  width: 250px;
+  margin: auto;
+
+}
+@keyframes fadeInDown {
+  0% {
+     opacity: 0;
+     transform: translateY(-20px);
+  }
+  100% {
+     opacity: 1;
+     transform: translateY(0);
+  }
+}
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+@media (max-width: 767px) {
+  .marketing {
+    background-position: top; /* Change the background position for mobile */
+    padding-top: 150px; /* Adjust the padding for mobile */
+    padding-bottom: 200px; /* Adjust the padding for mobile */
+  }
+}

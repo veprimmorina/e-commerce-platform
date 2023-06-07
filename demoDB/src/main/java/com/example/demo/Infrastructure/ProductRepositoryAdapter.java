@@ -51,7 +51,6 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
         SubCategory oldSubcategory = this.mongoTemplate.findById( product1.getSubCategoryId(), SubCategory.class);
         oldSubcategory.removeFromList(product1); // Remove the original product from the list
         mongoTemplate.save(oldSubcategory);
-        product1.setProductImage(product.getProductImage());
         product1.setProductName(product.getProductName());
         product1.setProductPrice(product.getProductPrice());
         product1.setSubCategoryId(product.getSubCategoryId());
