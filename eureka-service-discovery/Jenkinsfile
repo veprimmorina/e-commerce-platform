@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                withMaven(maven: 'jenkins-maven', mavenSettingsConfig: 'global') {
+                withMaven(maven: 'jenkins-maven', mavenSettingsConfig: '390a5abc-cc1c-472c-a99f-0d43bd0f42b9') {
                     bat 'mvn clean package'
                 }
             }
