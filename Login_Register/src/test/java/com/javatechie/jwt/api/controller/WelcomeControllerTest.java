@@ -1,34 +1,45 @@
 package com.javatechie.jwt.api.controller;
 
 import com.javatechie.jwt.api.entity.AuthRequest;
-import com.javatechie.jwt.api.entity.ConfirmationToken;
+import com.javatechie.jwt.api.entity.GoogleAuthenticationRequest;
 import com.javatechie.jwt.api.entity.UserEntity;
 import com.javatechie.jwt.api.repository.ConfirmationTokenRepository;
 import com.javatechie.jwt.api.repository.RegisterUserRepository;
 import com.javatechie.jwt.api.service.CustomUserDetailsService;
+import com.javatechie.jwt.api.service.EmailService;
 import com.javatechie.jwt.api.service.GoogleUserService;
 import com.javatechie.jwt.api.util.JwtUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 class WelcomeControllerTest {
-
-    private WelcomeController welcomeController;
 
     @Mock
     private JwtUtil jwtUtil;
 
     @Mock
-    private AuthenticationManager authenticationManager;
+    private RegisterUserRepository userRepository;
+
+    @Mock
+    private ConfirmationTokenRepository confirmationTokenRepository;
 
     @Mock
     private CustomUserDetailsService customUserDetailsService;
@@ -37,74 +48,36 @@ class WelcomeControllerTest {
     private GoogleUserService googleUserService;
 
     @Mock
-    private RegisterUserRepository userRepository;
+    private EmailService emailService;
 
-    @Mock
-    private ConfirmationTokenRepository confirmationTokenRepository;
+    @InjectMocks
+    private WelcomeController welcomeController;
 
     @BeforeEach
-    void setup() {
-        jwtUtil = mock(JwtUtil.class);
-        authenticationManager = mock(AuthenticationManager.class);
-        customUserDetailsService = mock(CustomUserDetailsService.class);
-        googleUserService = mock(GoogleUserService.class);
-        userRepository = mock(RegisterUserRepository.class);
-        confirmationTokenRepository = mock(ConfirmationTokenRepository.class);
-        welcomeController = new WelcomeController(jwtUtil, authenticationManager, customUserDetailsService, googleUserService, userRepository);
-
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
-    /*
+
     @Test
-    void generateToken_ValidCredentials_ReturnsToken() throws Exception {
+    void decodeJwt_ShouldReturnClaims() {
         // Arrange
-        String username = "test";
-        String password = "test123";
-        AuthRequest authRequest = new AuthRequest(username, password);
+        String jwtToken = "your-jwt-token";
+        Claims claims = Jwts.claims();
+        claims.put("name", "John Doe");
+        claims.put("lastName", "Doe");
+        claims.setSubject("john.doe@example.com");
+        claims.setExpiration(new Date());
 
-        UserDetails userDetails = mock(UserDetails.class);
-        when(customUserDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
-
-        BCryptPasswordEncoder passwordEncoder = mock(BCryptPasswordEncoder.class);
-        when(passwordEncoder.matches(password, userDetails.getPassword())).thenReturn(true);
-
-        UserEntity userEntity = mock(UserEntity.class);
-        when(userRepository.findByUserName(username)).thenReturn(userEntity);
-        when(userEntity.getRole()).thenReturn(0); // Assuming role 2 is valid
-
-        when(jwtUtil.generateToken(username, userEntity.getFirstName(), userEntity.getLastName(), userEntity.getRole())).thenReturn("token");
+        when(jwtUtil.extractAllClaims(jwtToken)).thenReturn(claims);
 
         // Act
-        String token = welcomeController.generateToken(authRequest);
+        ResponseEntity<?> response = welcomeController.decodeJwt(jwtToken);
 
         // Assert
-        assertNotNull(token);
-        assertEquals("token", token);
-        verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(claims, response.getBody());
     }
 
-    @Test
-    public void testGenerateAdminToken_NonvalidCredentials() throws Exception {
-        // Mock the behavior of the necessary dependencies
-        AuthRequest authRequest = new AuthRequest();
-        authRequest.setUserName("admin");
-        authRequest.setPassword("admin123");
-
-        UserDetails userDetails = mock(UserDetails.class);
-        when(customUserDetailsService.loadUserByUsername(authRequest.getUserName())).thenReturn(userDetails);
-        when(userDetails.getPassword()).thenReturn("admin123");
-
-        UserEntity userEntity = new UserEntity();
-        userEntity.setRole(1);
-        when(userRepository.findByUserName(authRequest.getUserName())).thenReturn(userEntity);
-
-       try{
-           //welcomeController.generateAdminToken(authRequest);
-           fail("Exception should have been thrown");
-       }catch (Exception e){
-           assertEquals("Invalid username/password", e.getMessage());
-       }
-    }
-    */
 
 
 }
