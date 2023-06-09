@@ -121,9 +121,9 @@ function DTest() {
              <Sidebar style={{ height: "940px" }} className="shadow">
                <Menu>
                  <img
-                   src="https://1000logos.net/wp-content/uploads/2017/06/Samsung-Logo-2.png"
+                   src='https://www.logodesignteam.com/images/portfolio-images/ecommerce-websites-logo-design/ecommerce-websites-logo-design20.jpg'
                    alt="logo"
-                   width="130px"
+                   width={150}
                    className="ml-5 pl- "
                  />
                  <SubMenu label="Products" className="mt-5">

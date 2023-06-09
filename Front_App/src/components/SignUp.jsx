@@ -47,13 +47,11 @@ function SignUp() {
       });
   };
   useEffect(() => {
-    if(userCookie==undefined||userCookie==""){
- 
-    }else{
-     navigate('/')
+    if (userCookie == undefined || userCookie == "") {
+    } else {
+      navigate("/");
     }
-     
-   }, [])
+  }, []);
   return (
     <>
       {userCookie == undefined || userCookie == "" ? (
@@ -61,7 +59,7 @@ function SignUp() {
           className="bg-light login-div"
           style={{
             backgroundImage:
-              "url('https://wallpaperaccess.com/full/2331715.jpg')",
+              "url('https://wallpaperaccess.com/full/2593042.jpg')",
           }}
         >
           <MDBRow className="d-flex justify-content-center align-items-center h-100 shadow">

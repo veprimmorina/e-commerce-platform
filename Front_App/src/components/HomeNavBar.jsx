@@ -13,6 +13,7 @@ function HomeNavBar() {
   const [user, setUser] = useState();
   const { cart } = useSelector((item) => item.user);
   const [showCart, setshowCart] = useState(false);
+  const logo = require("../Images/logo1.png");
 
   const handleCloseCart = () => {
     setshowCart(false);
@@ -39,11 +40,11 @@ function HomeNavBar() {
         },
       })
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         setUser(response.data);
       })
       .catch((error) => {
-        console.error("LoginError",error);
+        console.error("LoginError", error);
       });
   }, [cart]);
 
@@ -58,10 +59,7 @@ function HomeNavBar() {
     <>
       <Navbar collapseOnSelect expand="lg" className=" container">
         <Navbar.Brand href="#home">
-          <img
-            src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/gnb-desktop-120x32.png"
-            alt="logo"
-          />
+          <img src={logo} alt="logo" width={85} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -103,9 +101,9 @@ function HomeNavBar() {
               <i className="bi bi-heart" />
             </Nav.Link>
             <i className="bi bi-cart mt-2 " />
-            {cart.length !==0 ? (
+            {cart.length !== 0 ? (
               <span className="cart-span text-center text-white">
-                {cart.length !==0 ? cart.length : ""}
+                {cart.length !== 0 ? cart.length : ""}
               </span>
             ) : (
               ""
@@ -122,7 +120,9 @@ function HomeNavBar() {
               <>
                 <i className="bi bi-person mt-2"></i>
                 <NavDropdown>
-                  <NavDropdown.Item>{user?.name+" "+user?.lastName}</NavDropdown.Item>
+                  <NavDropdown.Item>
+                    {user?.name + " " + user?.lastName}
+                  </NavDropdown.Item>
                   <NavDropdown.Divider></NavDropdown.Divider>
                   <NavDropdown.Item onClick={() => logOut()}>
                     Log out

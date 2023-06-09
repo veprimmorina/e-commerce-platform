@@ -84,6 +84,9 @@ code {
 }
 .login-div{
   min-height: 930px;
+  background-image: url('https://redskysoftware.net/wp-content/uploads/2022/08/E-commerce-Website-in-Bahrain.jpg');
+    background-repeat: no-repeat;
+    background-size: 1800px;
 }
 .payment-methods{
   border: 1px solid black;

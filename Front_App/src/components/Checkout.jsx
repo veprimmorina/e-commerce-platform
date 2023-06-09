@@ -35,6 +35,7 @@ function Checkout(props) {
   const masterCard = require("../Images/master.png");
   const ae = require("../Images/ae.png");
   const discover = require("../Images/Discover-logo.png");
+  const logo = require("../Images/logo1.png");
   const cookie = new Cookies()
   const [user, setUser] = useState()
   useEffect(() => {
@@ -140,10 +141,9 @@ function Checkout(props) {
         <div className="py-5 text-center">
           <img
             className="d-block mx-auto mb-4"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png"
+            src={logo}
             alt=""
-            width="200"
-            height="72"
+            width={120}
           />
           <h2>Checkout form</h2>
 
