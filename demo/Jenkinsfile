@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    triggers {
+        pollSCM '* * * * *'
+    }
+    stages {
+        stage('Build') {
+            steps {
+
+                dir('./demo') {
+
+                    withMaven(maven: 'Maven 3.9.2') {
+                        bat 'mvn clean package'
+                    }
+                }
+            }
+        }
+    }
+}
