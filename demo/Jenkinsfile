@@ -22,5 +22,13 @@ pipeline {
                 }
             }
         }
-    }
+        stage('Docker Build and Run') {
+            steps {
+                script {
+                    sh 'docker build -t payment-image .C:\\Users\\TECHCOM\\Desktop\\ISASH-ECommerce-Project\\demo'
+                    sh 'docker run -d -p 7000:7000 --name payment-container payment-image'
+                    }
+                }
+            }
+        }
 }
