@@ -31,5 +31,14 @@ pipeline {
                 }
             }
         }
+        stage('Docker Run') {
+            steps {
+                dir('./demo') {
+                    script {
+                        bat 'docker run -p 7000:7000 --name payment-container payment'
+                    }
+                }
+            }
+        }
     }
 }
