@@ -37,7 +37,7 @@ pipeline {
                     script {
                         bat 'docker stop payment-container || true'
                         bat 'docker rm payment-container || true'
-                        bat 'docker run -p 7000:7000 --name payment-container payment'
+                        bat 'docker run -d -p 7000:7000 --name payment-container payment'
                     }
                 }
             }
