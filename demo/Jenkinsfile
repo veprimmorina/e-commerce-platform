@@ -22,18 +22,10 @@ pipeline {
                 }
             }
         }
-        stage('Docker Build and Run') {
+        stage('Docker Build Image') {
             steps {
-                // Change working directory to the location of the Jenkinsfile
-                dir('C:\\Users\\TECHCOM\\Desktop\\ISASH-ECommerce-Project\\demo') {
-                    // Build and run the Docker image for the payment service
-                    script {
-                        // Build the Docker image
-                        sh 'docker build -t payment .'
-
-                        // Run the Docker container
-                        sh 'docker run -d -p 7000:7000 --name payment-container payment'
-                    }
+                script {
+                    bat 'docker build -t payment .'
                 }
             }
         }

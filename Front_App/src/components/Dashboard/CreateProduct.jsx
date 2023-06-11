@@ -20,8 +20,9 @@ function CreateProduct({ show, handleCloseCreate }) {
   const [subCategories, setSubcategories] = useState();
   const [warrantyCoverageDetails, setwarrantyCoverageDetails] = useState();
   const handleSubmit = () => {
-   
+   console.log(image)
     const newProduct = {
+      
       productName: name,
       productImage: "image",
       productPrice: price,
@@ -84,7 +85,7 @@ function CreateProduct({ show, handleCloseCreate }) {
               <Form.Label>Product Image: </Form.Label>
               <Form.Control
                 type="file"
-                onChange={(e) => setImage(e.target.files[0])}
+                onChange={(e) => setImage(e.target.files)}
               ></Form.Control>
               <Form.Label>Product Name: </Form.Label>
               <Form.Control

@@ -43,7 +43,7 @@ function DTest() {
 
   useEffect(() => {
     if (!localStorage.getItem("jwt_authorization")) {
-      navigate("/");
+      //navigate("/");
     } else {
     }
     setIsLogedIn(localStorage.getItem("jwt_authorization"));
@@ -115,7 +115,7 @@ function DTest() {
   const setContext = () => {};
   return (
     <>
-      {localStorage.getItem("jwt_authorization") && admin?.role===1 ?   <div className="d-flex">
+      {1==1?   <div className="d-flex">
          <div>
            <ProSidebarProvider>
              <Sidebar style={{ height: "940px" }} className="shadow">
