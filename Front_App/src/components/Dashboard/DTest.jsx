@@ -43,7 +43,7 @@ function DTest() {
 
   useEffect(() => {
     if (!localStorage.getItem("jwt_authorization")) {
-      //navigate("/");
+      navigate("/");
     } else {
     }
     setIsLogedIn(localStorage.getItem("jwt_authorization"));
@@ -115,7 +115,7 @@ function DTest() {
   const setContext = () => {};
   return (
     <>
-      {1==1?   <div className="d-flex">
+      {localStorage.getItem("jwt_authorization") && admin?.role===1 ?   <div className="d-flex">
          <div>
            <ProSidebarProvider>
              <Sidebar style={{ height: "940px" }} className="shadow">
@@ -125,6 +125,7 @@ function DTest() {
                    alt="logo"
                    width={150}
                    className="ml-5 pl- "
+                   style={{marginLeft: "40px"}}
                  />
                  <SubMenu label="Products" className="mt-5">
                    <MenuItem onClick={() => showAllProducts()}>
