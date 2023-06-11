@@ -24,8 +24,10 @@ pipeline {
         }
         stage('Docker Build Image') {
             steps {
-                script {
-                    bat 'docker build -t payment .'
+                dir('./demo') {
+                    script {
+                        bat 'docker build -t payment .'
+                    }
                 }
             }
         }
