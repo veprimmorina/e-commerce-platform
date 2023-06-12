@@ -467,7 +467,9 @@ function Checkout(props) {
                 </div>
               )}
               {!checkOutButton && (
+                <div className="d-flex justify-content-center pt-3 pb-5">
                 <Spinner animation="border" role="status"></Spinner>
+                </div>
               )}
             </form>
           </div>

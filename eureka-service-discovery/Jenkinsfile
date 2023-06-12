@@ -6,11 +6,38 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-
                 dir('./eureka-service-discovery') {
-
                     withMaven(maven: 'Maven 3.9.2') {
                         bat 'mvn clean package'
+                    }
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('./eureka-service-discovery') {
+                    withMaven(maven: 'Maven 3.9.2') {
+                        bat 'mvn test'
+                    }
+                }
+            }
+        }
+        stage('Docker Build Image') {
+            steps {
+                dir('./eureka-service-discovery') {
+                    script {
+                        bat 'docker build -t eureka .'
+                    }
+                }
+            }
+        }
+        stage('Docker Run') {
+            steps {
+                dir('./eureka-service-discovery') {
+                    script {
+                        bat 'docker stop eureka-container || true'
+                        bat 'docker rm eureka-container || true'
+                        bat 'docker run -d -p 8083:8083 --name eureka-container eureka'
                     }
                 }
             }

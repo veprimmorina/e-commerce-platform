@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 function SuccessMessage() {
     const history = useNavigate();
     useEffect(() => {
+      
         const redirectTimer = setTimeout(() => {
+          window.location.href="http://localhost:3000/"
           history('/',{state:{cart: ""}});
         }, 5000);
         return () => clearTimeout(redirectTimer);

@@ -65,41 +65,7 @@ function Warranty({ warranty }) {
               <p className="pt-0">{warranty.length}</p>
             </MDBCol>
           </MDBContainer>
-          <MDBRow>
-            <MDBCol xl="8">
-              <MDBTypography listUnStyled>
-                <li className="text-muted">
-                  For samsumng: <span style={{ color: "#5d9fc5" }}>Mobile</span>
-                </li>
-                <li className="text-muted">Street, City</li>
-                <li className="text-muted">State, Country</li>
-                <li className="text-muted">
-                  <MDBIcon fas icon="phone-alt" /> 123-456-789
-                </li>
-              </MDBTypography>
-            </MDBCol>
-            <MDBCol xl="4">
-              <p className="text-muted">Invoice</p>
-              <MDBTypography listUnStyled>
-                <li className="text-muted">
-                  <MDBIcon fas icon="circle" style={{ color: "#84B0CA" }} />
-                  <span className="fw-bold ms-1">ID:</span>#123-456
-                </li>
-                <li className="text-muted">
-                  <MDBIcon fas icon="circle" style={{ color: "#84B0CA" }} />
-                  <span className="fw-bold ms-1">Creation Date: </span>Jun
-                  23,2021
-                </li>
-                <li className="text-muted">
-                  <MDBIcon fas icon="circle" style={{ color: "#84B0CA" }} />
-                  <span className="fw-bold ms-1">Status:</span>
-                  <span className="badge bg-warning text-black fw-bold ms-1">
-                    Active
-                  </span>
-                </li>
-              </MDBTypography>
-            </MDBCol>
-          </MDBRow>
+         
           <MDBRow className="my-2 mx-1 justify-content-center">
             <MDBTable striped borderless>
               <MDBTableHead
@@ -115,7 +81,7 @@ function Warranty({ warranty }) {
               <MDBTableBody>
                 <tr>
                   <td>{warranty.warrantyDescription}</td>
-                  <td>{warranty.warrantyLength} years</td>
+                  <td>{warranty.warrantyLength} Months</td>
                   <td>{warranty.warrantyCoverageDetails}</td>
                 </tr>
               </MDBTableBody>

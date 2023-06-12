@@ -125,6 +125,7 @@ function DTest() {
                    alt="logo"
                    width={150}
                    className="ml-5 pl- "
+                   style={{marginLeft: "40px"}}
                  />
                  <SubMenu label="Products" className="mt-5">
                    <MenuItem onClick={() => showAllProducts()}>
