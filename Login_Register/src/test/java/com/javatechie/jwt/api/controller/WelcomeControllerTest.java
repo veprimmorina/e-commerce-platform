@@ -1,5 +1,7 @@
 package com.javatechie.jwt.api.controller;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.javatechie.jwt.api.entity.AuthRequest;
 import com.javatechie.jwt.api.entity.GoogleAuthenticationRequest;
 import com.javatechie.jwt.api.entity.UserEntity;
@@ -21,13 +23,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class WelcomeControllerTest {
@@ -74,6 +80,23 @@ class WelcomeControllerTest {
         ResponseEntity<?> response = welcomeController.decodeJwt(jwtToken);
 
         // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(claims, response.getBody());
+    }
+    @Test
+    void decodeJwt_ValidToken_ReturnsClaims() {
+        // Arrange
+        String jwtToken = "valid-jwt-token";
+        Claims claims = mock(Claims.class);
+
+        // Mock the behavior of jwtUtil
+        when(jwtUtil.extractAllClaims(jwtToken)).thenReturn(claims);
+
+        // Act
+        ResponseEntity<?> response = welcomeController.decodeJwt(jwtToken);
+
+        // Assert
+        assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(claims, response.getBody());
     }

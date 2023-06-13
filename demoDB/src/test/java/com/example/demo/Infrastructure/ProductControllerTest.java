@@ -1,9 +1,6 @@
 package com.example.demo.Infrastructure;
 
-import com.example.demo.Domain.CheckOutVO;
-import com.example.demo.Domain.Product;
-import com.example.demo.Domain.ProductService;
-import com.example.demo.Domain.Review;
+import com.example.demo.Domain.*;
 import com.example.demo.Infrastructure.ProductController;
 import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
@@ -12,13 +9,19 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.bson.assertions.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -30,6 +33,8 @@ class ProductControllerTest {
 
     @InjectMocks
     private ProductController productController;
+    @Mock
+    private JavaMailSender javaMailSender;
 
     @BeforeEach
     void setup() {
@@ -363,6 +368,22 @@ class ProductControllerTest {
 
         // Assert
         verify(productService).addClicked(id);
+    }
+    @Test
+    void sendEmail_ValidParameters_SendsEmailWithAttachment() throws MessagingException, DocumentException, IOException {
+        // Arrange
+        String to = "recipient@example.com";
+        String subject = "Test Subject";
+        String text = "Test Email Body";
+        List<ProductEmbeddable> products = new ArrayList<>(); // Add some products to the list
+
+        // Mock the generateInvoicePdf method
+        ResponseEntity<byte[]> responseEntity = mock(ResponseEntity.class);
+        byte[] pdfBytes = "Mock PDF Content".getBytes();
+        ByteArrayResource pdfResource = new ByteArrayResource(pdfBytes);
+
+        when(responseEntity.getBody()).thenReturn(pdfBytes);
+
     }
 
 

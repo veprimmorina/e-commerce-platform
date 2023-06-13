@@ -29,7 +29,7 @@ function ProductDetails() {
       .get("http://127.0.0.1:8080/api/product/get/product/by/id/" + id)
       .then((response) => {
         setproduct(response.data);
-        console.log(response.data);
+        console.log("product",response.data);
       });
   }, [id]);
 
@@ -116,7 +116,7 @@ function ProductDetails() {
                         className="border-sm-start-none border-start"
                       >
                         <div className="d-flex flex-row align-items-center mb-1">
-                          <h4 className="mb-1 me-1">{product.productPrice}$</h4>
+                          <h4 className="mb-1 me-1">{product.productPrice}€</h4>
                           <span className="text-danger"></span>
                         </div>
 
@@ -137,7 +137,7 @@ function ProductDetails() {
                             className="ripple ripple-surface btn btn-outline-primary btn-sm mt-2"
                             href={
                               "http://127.0.0.1:8080/api/warranty/generate/pdf/" +
-                              product.warranty.warrantyID
+                              product.id
                             }
                             color="primary"
                             size="sm"

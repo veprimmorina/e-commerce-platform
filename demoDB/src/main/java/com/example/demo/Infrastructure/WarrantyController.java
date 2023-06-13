@@ -1,8 +1,7 @@
 package com.example.demo.Infrastructure;
 
 import com.example.demo.Application.WarrantyInputPort;
-import com.example.demo.Domain.Warranty;
-import com.example.demo.Domain.WarrantyService;
+import com.example.demo.Domain.*;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,8 @@ public class WarrantyController implements WarrantyInputPort {
 
     @Autowired
     private WarrantyService warrantyService;
+    @Autowired
+    private ProductService productService;
 
     @Override
     @GetMapping("get/by/product/{productId}")
@@ -40,7 +41,7 @@ public class WarrantyController implements WarrantyInputPort {
         Document document = new Document();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, baos);
-        Warranty warranty = this.warrantyService.findWarranty(warrantyId);
+        Product product = this.productService.getProductByid(warrantyId);
         // Open the document
         document.open();
 
@@ -48,9 +49,9 @@ public class WarrantyController implements WarrantyInputPort {
         // Add custom information to the document
         Paragraph paragraph = new Paragraph("Warranty");
         document.add(paragraph);
-        Paragraph paragraph1 = new Paragraph("Warranty Description: "+warranty.getWarrantyDescription());
-        Paragraph paragraph2 = new Paragraph("Warranty Length: "+warranty.getWarrantyLength()+" years");
-        Paragraph paragraph3 = new Paragraph("Warranty coverage details: "+warranty.getWarrantyCoverageDetails());
+        Paragraph paragraph1 = new Paragraph("Warranty Description: "+product.getWarranty().getWarrantyDescription());
+        Paragraph paragraph2 = new Paragraph("Warranty Length: "+product.getWarranty().getWarrantyLength()+" months");
+        Paragraph paragraph3 = new Paragraph("Warranty coverage details: "+product.getWarranty().getWarrantyCoverageDetails());
         paragraph.setAlignment(Element.ALIGN_CENTER);
         paragraph1.setAlignment(Element.ALIGN_CENTER);
         paragraph2.setAlignment(Element.ALIGN_CENTER);
@@ -59,7 +60,7 @@ public class WarrantyController implements WarrantyInputPort {
         document.add(paragraph1);
         document.add(paragraph2);
         document.add(paragraph3);
-       String imagePath = "C:\\Users\\DELL\\Desktop\\laptop.jpg";
+        String imagePath = product.getProductImage();
         Image image = Image.getInstance(imagePath);
         image.scaleToFit(200f, 200f);
         image.setAlignment(Element.ALIGN_CENTER);
@@ -73,7 +74,7 @@ public class WarrantyController implements WarrantyInputPort {
         // Set the content type and return the response
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", "Warranty_"+warranty.getWarrantyID()+".pdf");
+        headers.setContentDispositionFormData("attachment", "Warranty_"+product.getWarranty().getWarrantyID()+".pdf");
         headers.setContentLength(pdfBytes.length);
 
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);

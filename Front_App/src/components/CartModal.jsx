@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { DecreaseQuantity, IncreaseQuantity, RemoveCart } from './cartSystem';
 import { useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 function CartModal({showCart, handleCloseCart}) {
     const [totalPrice, setTotalPrice] = useState(0);
@@ -23,6 +24,7 @@ function CartModal({showCart, handleCloseCart}) {
   const handleIncreaseQuantity = (product) => {
     if(product.quantity==product.productDetails.quantity){
       setLimitMessage("Maximum of order for "+product.productName+" is "+product.productDetails.quantity)
+      toast.error("Maximum of order for "+product.productName+" is "+product.productDetails.quantity);
     }
     
     else{
@@ -132,7 +134,6 @@ function CartModal({showCart, handleCloseCart}) {
             <h5>Total: <span class="price text-success"> {access}€</span></h5>
 
           </div>
-          <b className='text-center text-danger limit'>{limitMessage}</b>
         </div>
         <div class="modal-footer border-top-0 d-flex justify-content-between">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -142,6 +143,7 @@ function CartModal({showCart, handleCloseCart}) {
         : " Momentally, you do not have any product in cart" }
       </div>
     </div>
+    <ToastContainer />
   </Modal>
   )
 }

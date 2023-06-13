@@ -33,6 +33,7 @@ public class ProductController implements ProductInputPort {
     @Autowired
     private JavaMailSender javaMailSender;
 
+
     @PostMapping("/save")
     public Product saveDataModel(@RequestBody Product dataModel) {
         productService.saveDataModel(dataModel);
