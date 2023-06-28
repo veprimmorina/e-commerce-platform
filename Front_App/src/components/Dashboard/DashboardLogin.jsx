@@ -27,7 +27,7 @@ function DashboardLogin() {
       password: password,
     };
     axios
-      .post("http://127.0.0.1:9192/authenticate/admin/" + code, AuthRequest)
+      .post("http://127.0.0.1:9192/authenticate/admin/123", AuthRequest)
       .then((response) => {
         localStorage.setItem("jwt_authorization", response.data, {
           sameSite: "strict",
@@ -41,21 +41,7 @@ function DashboardLogin() {
       });
   };
 
-  const sendCode = () => {
-    var AuthRequest = {
-      userName: userName,
-      password: password,
-    };
-    axios
-      .post("http://127.0.0.1:9192/send/code", AuthRequest)
-      .then((response) => {
-        setShowLogin(false);
-      })
-      .catch((error) => {
-        toast.error("Invalid credentials!", toast.POSITION.TOP_RIGHT);
-        console.log(error);
-      });
-  };
+  
 
   return (
     <>
@@ -81,7 +67,7 @@ function DashboardLogin() {
               <Button
                 variant="dark"
                 className="mt-3"
-                onClick={() => sendCode()}
+                onClick={() => login()}
               >
                 Login
               </Button>

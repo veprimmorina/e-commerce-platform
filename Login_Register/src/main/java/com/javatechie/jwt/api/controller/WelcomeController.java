@@ -183,6 +183,8 @@ public class WelcomeController {
             if (userEntity.getRole()==0||!(userEntity.getPassword().equals(authRequest.getPassword()))){
                 throw new Exception("Invalid username/password");
             }
+
+
             ConfirmationToken confirmationToken = confirmationTokenRepository.findByConfirmationToken(userEntity.getConfirmationToken().getConfirmationToken());
             Random random = new Random();
             String randomNumber = String.valueOf(random.nextInt(900000)+100000);
@@ -216,7 +218,7 @@ public class WelcomeController {
             UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(authRequest.getUserName());
 
 
-            if (!(authRequest.getPassword().equals( userDetails.getPassword()))) {
+            if (!(authRequest.getPassword().equals(userDetails.getPassword()))) {
                 throw new Exception("Invalid username/password");
             }
 
@@ -235,7 +237,7 @@ public class WelcomeController {
 
 
 
-            if(!bCryptPasswordEncoder.matches(token, userEntity.getConfirmationToken().getConfirmationToken())){
+            /*if(!bCryptPasswordEncoder.matches(token, userEntity.getConfirmationToken().getConfirmationToken())){
                 throw new Exception("Invalid Token");
             }
 
@@ -246,6 +248,7 @@ public class WelcomeController {
             confirmationTokenRepository.save(confirmationToken);
             userEntity.setConfirmationToken(confirmationToken);
             userRepository.save(userEntity);
+             */
         } catch (Exception ex) {
 
             throw new Exception("inavalid username/password");
